@@ -7,9 +7,9 @@ description:         Unified LLM client for Haskell
 homepage:            https://github.com/githubuser/llm-hs#readme
 license:             BSD-3-Clause
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2024 Author name here
+author:              Endi Sukaj
+maintainer:          endisukaj@gmail.com
+copyright:           2024 Endi Sukaj
 category:            Web
 build-type:          Simple
 extra-source-files:  README.md
