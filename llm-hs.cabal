@@ -2,8 +2,8 @@ cabal-version:       2.2
 
 name:                llm-hs
 version:             0.0.0.1
--- synopsis:
--- description:
+synopsis:            Unified LLM client for Haskell
+description:         Unified LLM client for Haskell
 homepage:            https://github.com/githubuser/llm-hs#readme
 license:             BSD-3-Clause
 license-file:        LICENSE
