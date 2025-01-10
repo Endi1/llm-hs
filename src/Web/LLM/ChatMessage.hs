@@ -1,4 +1,4 @@
-module Web.LLM.ChatMessage (Role (..), ChatMessage(ChatMessage), createChatMessage) where
+module Web.LLM.ChatMessage (Role (..), ChatMessage(ChatMessage, content, role), createChatMessage) where
 
 import RIO.Text
 

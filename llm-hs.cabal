@@ -21,6 +21,7 @@ library
                        Web.LLM.ChatMessage,
                        Web.LLM.Completion,
                        Web.LLM.Clients.Gemini,
+                       Web.LLM.Clients.Claude,
                        Web.LLM.Clients.Clients
   build-depends:       base >= 4.7 && < 5,
                        rio == 0.1.22.0,
