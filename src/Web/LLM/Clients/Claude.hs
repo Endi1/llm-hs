@@ -9,7 +9,7 @@ module Web.LLM.Clients.Claude (ClaudeResponse(..), ClaudeClientConfig (..)) wher
 import RIO (Text, Generic, fromMaybe, ByteString)
 import Web.LLM.Completion (Completion (..))
 import Web.LLM.Clients.Clients (LLMClient, chatCompletion, CompletionConfig (model, maxTokens))
-import Data.Aeson (ToJSON(toJSON), object, (.=), (.:), FromJSON (parseJSON), withObject)
+import Data.Aeson (ToJSON(toJSON), object, (.=), (.:), (.:?), FromJSON (parseJSON), withObject)
 import Web.LLM.ChatMessage ( ChatMessage(content, role), Role(..) ) 
 import Network.HTTP.Req
     ( (/:),
@@ -41,7 +41,7 @@ instance LLMClient ClaudeClientConfig ClaudeResponse where
     return (responseBody response)
 
 instance Completion ClaudeResponse where
-  completion = Just . claudeResponseContentText . claudeResponseContent
+  completion cr = Just (claudeResponseContentText (head $ claudeResponseContent cr))
   promptTokens = Just . inputTokens . usage
   completionTokens = Just . outputTokens . usage
 
@@ -57,12 +57,12 @@ instance FromJSON ClaudeResponseType where
 data ClaudeResponseContentType = Text deriving (FromJSON, Generic)
 
 data ClaudeResponse = ClaudeResponse {
-  claudeResponseContent :: !ClaudeResponseContent,
+  claudeResponseContent :: ![ClaudeResponseContent],
   id :: !Text,
   claudeResponseModel :: !Text,
-  stopReason :: !ClaudeStopReason,
+  stopReason :: !Text,
   stopSequence :: Maybe Text,
-  responseType :: !ClaudeResponseType,
+  responseType :: Maybe ClaudeResponseType,
   usage :: !ClaudeUsage
 }
 
@@ -73,18 +73,17 @@ instance FromJSON ClaudeResponse where
     <*> v .: "model"
     <*> v .: "stop_reason"
     <*> v .: "stop_sequence"
-    <*> v .: "response_type"
+    <*> v .:? "response_type"
     <*> v .: "usage"
 
-data ClaudeResponseContent = ClaudeResponseContent {
-  claudeResponseContentText :: !Text,
-  claudeResponseContentType :: !ClaudeResponseContentType
+newtype ClaudeResponseContent = ClaudeResponseContent {
+  claudeResponseContentText :: Text
 }
 
 instance FromJSON ClaudeResponseContent where
   parseJSON = withObject "ClaudeResponseContent" $ \v -> ClaudeResponseContent
     <$> v .: "text"
-    <*> v .: "type"
+    -- <*> v .: "type"
 
 
 data ClaudeUsage = ClaudeUsage {
