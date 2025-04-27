@@ -30,7 +30,7 @@ instance LLMClient GeminiClientConfig GeminiResponse where
     return (responseBody response)
 
 toGeminiRequest :: [ChatMessage] -> CompletionConfig -> GeminiRequest
-toGeminiRequest messages cConfig = GeminiRequest [
+toGeminiRequest messages _ = GeminiRequest [
   GeminiRequestContent $ map (\(ChatMessage _ c) -> GeminiRequestPart c) messages
   ]
 
