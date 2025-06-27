@@ -17,4 +17,3 @@ data CompletionConfig = CompletionConfig
 
 class Completion r => LLMClient c r where
   chatCompletion :: c -> [ChatMessage] -> CompletionConfig -> IO r
-
